@@ -22,13 +22,20 @@ streamlit run app.py
 pytest                   # tests run offline, no API key needed
 ```
 
-## Important: replace the sample nutrition data
+## Nutrition data
 
-`data/food_composition.csv` is a small **sample** (~30 foods, approximate values per 100 g)
-so the app runs out of the box. For real use, replace it with a proper dataset such as
-TKPI (Tabel Komposisi Pangan Indonesia) or USDA FoodData Central, keeping the columns:
-`name, aliases, kcal, protein_g, fat_g, carbs_g`. Add Indonesian and English names to `aliases`
-(separated by `;`) to improve ingredient matching.
+`data/food_composition.csv` is generated from the project dataset (Indonesian recipes with
+per-ingredient composition, values already adjusted for the edible portion / BDD).
+Columns: `name, aliases, kcal, protein_g, fat_g, carbs_g, calcium_mg, iron_mg, zinc_mg,
+retinol_ug, betacarotene_ug, source` (per 100 g; `source` is `dataset` or `sample_approx`).
+
+```bash
+python scripts/build_food_db.py path/to/data.json          # regenerate the CSV
+python scripts/validate_against_dataset.py path/to/data.json  # accuracy check
+```
+
+`sample_approx` rows are rough fallback values for common foods the dataset does not cover
+(e.g. daging sapi, kangkung, brokoli). Replace them as you get better data.
 
 ## Switching LLM provider
 

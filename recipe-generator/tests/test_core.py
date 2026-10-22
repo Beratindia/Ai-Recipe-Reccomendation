@@ -37,9 +37,21 @@ def test_generate_recipe_fails_after_retries():
 
 def test_nutrition_matching_and_totals():
     recipe = generate_recipe("x", "", "Indonesian", 2, llm=lambda s, u: json.dumps(GOOD))
-    calc = NutritionCalculator(load_food_db())
+    df = load_food_db()
+    calc = NutritionCalculator(df)
     result = calc.calculate(recipe)
     assert result.unmatched == ["saus rahasia"]
-    # 300 g ayam @120 + 40 g shallot @72 + 30 g kecap @170 = 360 + 28.8 + 51
-    assert result.total["kcal"] == pytest.approx(439.8, abs=0.2)
-    assert result.per_serving["kcal"] == pytest.approx(219.9, abs=0.2)
+
+    def kcal(food_name):
+        return float(df.loc[df["name"] == food_name, "kcal"].iloc[0])
+
+    expected = (300 * kcal("Ayam, daging, segar") + 40 * kcal("Bawang merah, segar")
+                + 30 * kcal("Kecap")) / 100
+    assert result.total["kcal"] == pytest.approx(expected, abs=0.2)
+    assert result.per_serving["kcal"] == pytest.approx(expected / 2, abs=0.2)
+
+
+def test_ambiguous_short_names_resolve_to_meat_not_liver():
+    calc = NutritionCalculator(load_food_db())
+    assert calc.df.loc[calc.match("ayam"), "name"] == "Ayam, daging, segar"
+    assert calc.df.loc[calc.match("chicken"), "name"] == "Ayam, daging, segar"

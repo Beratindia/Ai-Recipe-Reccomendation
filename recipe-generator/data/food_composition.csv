@@ -1,34 +1,141 @@
-name,aliases,kcal,protein_g,fat_g,carbs_g
-nasi putih,nasi;cooked rice;steamed rice,130,2.7,0.3,28
-beras,rice;uncooked rice,360,6.8,0.7,79
-ayam,daging ayam;dada ayam;chicken;chicken breast,120,22.5,2.6,0
-daging sapi,sapi;beef;sirloin,150,21,7,0
-ikan lele,lele;catfish,105,18,3,0
-udang,shrimp;prawn;prawns,99,24,0.3,0.2
-telur ayam,telur;egg;eggs,143,12.6,9.5,0.7
-tempe,tempeh,193,20,11,9
-tahu,tofu;tahu putih,76,8,4.8,1.9
-bawang merah,shallot;shallots,72,2.5,0.1,17
-bawang putih,garlic,149,6.4,0.5,33
-bawang bombay,onion;bawang besar;yellow onion,40,1.1,0.1,9.3
-cabai merah,cabe merah;cabai;chili;red chili,40,1.9,0.4,8.8
-tomat,tomato;tomatoes,18,0.9,0.2,3.9
-kentang,potato;potatoes,77,2,0.1,17
-wortel,carrot;carrots,41,0.9,0.2,9.6
-bayam,spinach,23,2.9,0.4,3.6
-kangkung,water spinach,19,3,0.2,3.1
-brokoli,broccoli,34,2.8,0.4,7
-jahe,ginger,80,1.8,0.8,18
-jeruk nipis,lime;lime juice,30,0.7,0.2,11
-kecap manis,sweet soy sauce,170,2,0,40
-minyak goreng,minyak;cooking oil;vegetable oil;olive oil,884,0,100,0
-mentega,butter;margarin,717,0.9,81,0.1
-garam,salt,0,0,0,0
-gula pasir,gula;sugar,387,0,0,100
-santan,coconut milk,197,2,21,2.8
-susu,milk;susu sapi,61,3.2,3.3,4.8
-keju,cheese,402,25,33,1.3
-tepung terigu,terigu;flour;wheat flour,364,10,1,76
-pasta,spaghetti;macaroni;dry pasta,371,13,1.5,75
-mie telur,mie;noodles;egg noodles,384,14,4.4,72
-kacang tanah,peanut;peanuts,567,26,49,16
+name,aliases,kcal,protein_g,fat_g,carbs_g,calcium_mg,iron_mg,zinc_mg,retinol_ug,betacarotene_ug,source
+"Alpukat, segar",alpukat,51.85,0.55,3.97,4.7,6.1,0.55,0.24,0.0,,dataset
+"Asam kandis, segar",asam kandis,75.0,0.2,1.1,16.1,63.0,2.5,0.1,0.0,,dataset
+"Asam masak pohon, segar",asam;asam masak pohon;asam matang;asam mentah;asam potong;asam potong yg gopek,128.16,1.34,0.29,30.0,35.52,0.29,0.05,0.0,,dataset
+"Ayam, daging, segar",ayam;ayam cincang rebus;ayam dada;ayam dada fillet;ayam fillet;ayam goreng;ayam potong;ayam potong kecil;ayam rebus;ayam uk sedang;ayam uk.besar;ayam ukuran besar;chicken;chicken breast;chicken meat;dada ayam;dada ayam fillet;dada ayam rebus;dada ayam segar;dada ayam tanpa tulang;daging ayam;daging ayam cincang;daging ayam dada;daging ayam dada fillet;daging ayam fillet;daging ayam rebus;daging dada ayam;daging fillet dada ayam;fillet ayam;fillet dada ayam;fillet daging ayam,172.84,10.56,14.5,0.0,8.12,0.87,1.16,142.1,,dataset
+"Ayam, hati, segar",ati ayam,261.0,27.4,16.1,1.6,118.0,15.8,0.0,4.96,,dataset
+"Bawang bombay, segar","bawang bombay;bawang bombay , iris;bawang bombay iris;onion;onions;yellow onion",40.42,1.32,0.19,9.68,30.08,0.47,0.28,0.0,,dataset
+"Bawang merah, segar","bamer;bawang merah;bawang merah besar;bawang merah bubuk;bawang merah cincang;bawang merah goreng;bawang merah halus;bawang merah iris;bawang merah iris halus;bawang merah mentah;bawang merah ukuran besar;bawang merah, cincang halus;iris goreng bawang merah;shallot;shallots",41.4,1.35,0.27,8.28,32.4,0.72,0.18,0.0,,dataset
+"Bawang putih, segar","bawang putih;bawang putih , cincang;bawang putih besar;bawang putih bubuk;bawang putih bubuk /halus;bawang putih cincang;bawang putih cincang halus;bawang putih goreng;bawang putih halus;bawang putih iris;bawang putih iris halus;bawang putih uk sedang;bawang putih ukuran besar;bubuk bawang putih;garlic;iris goreng bawang putih",98.56,3.96,0.18,20.33,36.96,0.88,0.35,0.0,,dataset
+"Bayam, segar",bayam;ikat bayam;spinach,11.36,0.64,0.28,2.06,117.86,2.49,0.28,0.0,,dataset
+"Belimbing, segar",belimbing;belimbing sayur,30.96,0.34,0.34,7.57,3.44,0.95,0.09,0.0,,dataset
+"Bengkuang, segar",bengkuang;bengkuang besar,49.56,1.18,0.17,10.75,12.6,0.5,0.25,0.0,,dataset
+"Beras ladang, mentah",beras;beras ladang;beras pulen;raw rice;uncooked rice,376.0,7.5,3.8,78.0,20.0,0.8,1.4,0.0,,dataset
+"Bihun Jagung, mentah",bihun / soun;bihun jagung;bihun jagung kering;bihun jagung rose brand;glass noodles;rice vermicelli;soun;soun rebus,354.0,0.5,0.3,87.4,13.0,0.6,0.0,0.0,,dataset
+Bihun goreng instan,bihun;bihun instan rose brand;bihun rebus;bihun rebus rose brand;bihun rose brand;bihun rose brand rebus;bihun yang sdh direbus,381.0,6.1,3.9,80.3,266.0,2.9,0.0,58.0,,dataset
+"Boros laja (lengkuas), segar",boros laja (lengkuas);galangal;lengkuas;lengkuas geprek;lengkuas halus,20.8,0.8,0.24,3.76,40.0,1.6,0.24,0.0,,dataset
+"Buncis, segar",buncis;green beans;string beans,30.6,2.16,0.27,6.48,90.9,0.63,0.27,0.0,,dataset
+"Cabai hijau, segar",cabai hijau;cabai hijau besar;cabai hijau potong bulat;cabe besar hijau;cabe hijau;cabe hijau besar;cabe ijo keriting;green chili;green chilli;lombok hijau;lombok hijau besar,21.32,0.57,0.25,4.26,11.48,0.33,0.16,0.0,,dataset
+"Cabai merah, segar","bubuk cabe merah;cabai keriting;cabai keriting merah;cabai merah;cabai merah besar;cabai merah besar kering;cabai merah halus;cabai merah kering;cabai merah keriting;cabai merah potong panjang;cabai merah, rebus;cabe besar merah;cabe keriting;cabe keriting merah;cabe keriting merah besar;cabe keriting rebus;cabe kriting;cabe kriting besar;cabe kriting merah;cabe merah;cabe merah besar;cabe merah halus;cabe merah kering;cabe merah keriting;cabe merah keriting segar;cabe merah rebus;cabe merah sedang;chili;chilli;lombok merah besar;lombok merah keriting;red chili;red chilli",30.6,0.85,0.26,6.2,24.65,0.43,0.17,0.0,,dataset
+"Cabai rawit, segar",bird eye chili;bird's eye chili;butir cabai kecil;cabai kecil;cabai rawit;cabai rawit halus;cabai rawit mentah;cabai rawit merah;cabai rawit merah utuh;cabai rawit oranye;cabai rawit oren;cabai rawit pedas utuh;cabai rawit potong bulat;cabai rawit setan;cabai rawit utuh;cabai setan;cabe ijo kecil;cabe merah kecil;cabe rawit;cabe rawit halus;cabe rawit iris;cabe rawit orange;cabe rawit oranye;cabe rawit oren;cabe rawit pedas;cabe rawit potong kasar;cabe rawit setan;cabe rawit setan utuh;cabe rawit utuh,102.0,4.0,2.04,16.91,38.25,2.12,0.51,0.0,,dataset
+"Cengkeh, kering",cengkeh;cengkeh bubuk,330.0,5.2,8.9,57.4,740.0,4.9,0.0,0.0,,dataset
+Cuka,,21.0,0.1,0.1,5.0,7.0,0.5,0.0,0.0,,dataset
+"Daun bawang merah, segar",bawang daun;daun bawang;daun bawang iris;daun bawang iris halus;daun bawang iris-iris;daun bawang merah;daun bawang ukuran sedang;green onion;irisan daun bawang;scallion;spring onion,27.47,1.34,0.2,5.23,40.2,1.54,0.2,0.0,,dataset
+"Daun kemangi, segar",daun kemangi;ikat kemangi;kemangi;kemangi segar,27.95,3.58,0.2,4.88,22.75,0.65,0.0,0.0,,dataset
+"Daun kenikir, segar",daun kenikir,16.2,1.33,0.18,2.38,118.08,0.97,0.22,0.0,,dataset
+"Daun kubis, segar",cabbage;daun kubis;irisan kubis;kubis;kubis utuh,38.25,1.88,0.83,6.0,75.0,2.55,0.45,0.0,,dataset
+"Daun mangkokan, segar",daun mangkokan,45.6,2.96,0.24,9.44,379.2,3.2,0.0,0.0,,dataset
+"Daun melinjo, segar",daun melinjo,91.52,4.4,1.14,18.74,192.72,3.7,0.53,0.0,,dataset
+"Daun pakis, segar",daun pakis,27.3,3.15,0.28,4.83,95.2,1.61,0.21,0.0,,dataset
+"Daun salam, bubuk",daun salam;daun salam kering,301.0,14.2,10.9,49.0,86.0,44.1,0.7,0.0,,dataset
+"Daun singkong, segar",daun singkong;daun ubi / singkong;ikat daun singkong;ikat daun ubi,43.5,5.39,0.96,6.18,144.42,1.13,1.74,0.0,,dataset
+Emping (kerupuk melinjo),emping;emping goreng,345.0,12.0,1.5,71.5,100.0,5.0,0.0,0.0,,dataset
+Gula aren,gula aren bubuk;gula jawa;gula merah;gula merah / aren;gula merah iris;palm sugar,368.0,0.0,0.0,92.0,75.0,3.0,26.4,0.0,,dataset
+Gula kelapa,,386.0,3.0,10.0,76.0,76.0,2.6,0.0,0.0,,dataset
+Gula putih,gula;gula halus;gula pasir;gula pasir rose brand;gula pasir rosebrand;gula rose brand;sugar;white sugar,394.0,0.0,0.0,94.0,5.0,0.1,0.0,0.0,,dataset
+"Ikan Patin, segar",ikan patin;ikan patin fillet;ikan patin ukuran besar,132.0,17.0,6.6,1.1,31.0,1.6,0.8,0.0,,dataset
+"Ikan Pindang benggol, mentah",ikan pindang benggol;pindang keranjang,170.0,31.0,4.2,0.0,50.0,1.0,0.0,45.0,,dataset
+"Ikan Pindang layang, mentah",ikan pindang layang;pindang deles goreng,153.0,30.0,2.8,0.0,60.0,3.0,0.0,61.0,,dataset
+"Ikan Teri nasi, kering, mentah",ikan teri nasi;teri nasi,144.0,32.5,0.6,0.0,1.0,3.0,0.0,61.0,,dataset
+"Ikan asin, kering",ikan asin;ikan asin siam,135.1,29.4,1.05,0.0,140.0,1.75,0.0,0.0,,dataset
+"Ikan bandeng, segar",ikan bandeng;ikan bandeng goreng;ikan bandeng ukuran sedang,123.0,20.0,4.8,0.0,20.0,2.0,0.9,45.0,,dataset
+"Ikan baung, segar",ikan baung,123.0,15.1,5.5,3.3,5.0,1.3,0.7,0.0,,dataset
+"Ikan bawal, segar",ikan bawal,91.0,19.0,1.7,0.0,20.0,2.0,0.3,45.0,,dataset
+"Ikan gabus, segar",ikan gabus,80.0,16.2,0.5,2.6,170.0,0.1,0.4,335.0,,dataset
+"Ikan kakap, segar",ikan kakap;ikan kakap fillet,92.0,20.0,0.7,0.0,20.0,1.0,0.0,9.0,,dataset
+"Ikan layang, segar",ikan layang,87.2,17.6,1.36,0.0,40.0,1.6,0.0,36.0,,dataset
+"Ikan lemuru, segar",ikan lemuru;ikan lemuru segar,89.6,16.0,2.4,0.0,16.0,0.8,0.0,24.0,,dataset
+"Ikan mas, segar",ikan mas,68.8,12.8,1.6,0.0,16.0,1.6,0.88,36.0,,dataset
+"Ikan mayong, segar",ikan manyung panggang;ikan mayong,86.33,15.93,1.78,0.36,35.6,2.23,0.0,18.69,,dataset
+"Ikan oci, kembung, segar",ikan kembung banjar;ikan oci,100.0,17.04,2.72,1.76,108.8,0.64,0.88,0.0,,dataset
+"Ikan saluang, segar",ikan saluang,100.57,12.37,4.36,3.03,571.38,1.69,3.2,0.0,,dataset
+"Ikan sarden, segar",ikan sarden,109.0,19.9,1.8,3.4,95.0,1.3,2.0,195.0,,dataset
+"Ikan selar, segar",ikan selar,48.0,9.02,1.06,0.0,19.2,0.24,0.14,21.6,,dataset
+"Ikan teri, segar",anchovies;anchovy;ikan teri;ikan teri besar;ikan teri segar;teri;teri goreng;teri kering,74.0,10.3,1.4,4.1,972.0,3.9,0.2,13.0,,dataset
+"Ikan tongkol, segar",ikan pindang tongkol;ikan tongkol;ikan tongkol putih;ikan tongkol sedang;ikan tongkol ukuran besar;ikan tongkol ukuran sedang;skipjack tuna;tongkol;tongkol segar uk sedang;tuna,100.0,13.7,1.5,8.0,92.0,1.7,1.6,181.0,,dataset
+"Ikan, cakalang, segar",ikan,107.0,19.6,0.7,5.5,23.0,2.9,0.6,386.0,,dataset
+"Jagung kuning pipil, kering, mentah",jagung kuning pipil;jagung madu;jagung pipil,366.0,9.8,7.3,69.1,30.0,2.3,1.9,0.0,,dataset
+"Jagung muda, rebus",corn;jagung muda;jagung putri;sweet corn,142.0,5.0,0.7,30.3,5.0,0.8,0.9,0.0,,dataset
+"Jahe, segar",bubuk jahe;ginger;jahe;jahe besar;jahe bubuk;jahe geprek,49.47,1.45,0.97,9.8,20.37,1.55,0.68,0.0,,dataset
+"Jamur kuping, segar",jamur kuping;jamur kuping kering;jamur kuping potong-potong;jamur kuping segar,21.0,3.8,0.6,0.9,3.0,1.7,0.1,0.0,,dataset
+"Jamur merang, segar",jamur merang,30.0,3.5,0.2,4.0,14.0,1.0,0.8,0.0,,dataset
+"Jamur tiram, segar",jamur tiram,30.0,1.9,0.1,5.5,9.0,0.7,0.8,0.0,,dataset
+"Jantung pisang, segar",jantung pisang,8.0,0.3,0.07,1.77,7.5,0.03,0.07,0.0,,dataset
+"Jengkol, segar",jengkol;jengkol rebus,182.4,5.13,0.29,38.67,3.8,0.66,0.57,0.0,,dataset
+"Jeruk nipis, segar",jeruk nipis;jeruk nipis iris;lime,33.44,0.38,0.15,7.6,13.68,0.15,0.08,0.0,,dataset
+"Kacang panjang, segar",ikat kacang panjang;kacang pajang;kacang panjang;long beans;yardlong beans,28.52,2.12,0.09,4.88,55.2,0.55,0.46,0.0,,dataset
+"Kacang tanah, kering",kacang tanah;kacang tanah goreng;kacang tanah goreng sangrai;kacang tanah sangrai;peanut;peanuts,525.0,27.9,42.7,17.4,316.0,5.7,1.9,0.0,,dataset
+"Kalio kikil (tunjang), masakan",kalio kikil (tunjang);kikil sapi;tunjang,122.0,13.8,5.7,3.9,154.0,3.4,0.0,36.0,,dataset
+"Kangkung, segar",ikat kangkung;kangkung,16.8,2.04,0.42,2.34,40.2,1.38,0.24,0.0,,dataset
+Kecap,kecap bango;kecap manis;kecap manis bango;kecap manis untuk olesan;kicap manis;soy sauce;sweet soy sauce,71.0,5.7,1.3,9.0,123.0,5.7,0.0,0.0,,dataset
+"Kecombrang, segar",kecombrang,34.0,0.9,1.0,6.7,60.0,1.0,0.0,0.0,,dataset
+Keju,,326.0,22.8,20.3,13.1,777.0,1.5,3.1,227.0,,dataset
+Kemiri,bubuk kemiri;kemiri bakar;kemiri bubuk;kemiri goreng;kemiri sangrai;kemiri yang telah disangrai,675.0,19.0,63.0,8.0,80.0,2.0,0.8,0.0,,dataset
+"Kentang, segar",kentang;kentang besar;kentang goreng potong dadu;kentang mini;kentang uk sedang;kentang ukuran besar;kering kentang;potato;potatoes,52.7,1.79,0.17,11.48,53.55,0.59,0.26,0.0,,dataset
+"Kepiting, segar",kepiting;kepiting ukuran sedang,67.95,6.21,1.71,6.34,94.5,0.5,0.0,27.45,,dataset
+Kerupuk udang goreng,kerupuk udang,477.0,4.7,20.5,68.5,24.0,0.9,0.2,0.0,,dataset
+"Ketimun, segar",cucumber;irisan timun;ketimun;mentimun;timun;timun cincang;timun potong dadu;timun potong korek,4.4,0.11,0.11,0.77,15.95,0.44,0.06,0.0,,dataset
+"Ketumbar, kering",bubuk ketumbar;coriander;ketumbar;ketumbar bubuk;ketumbar butir;ketumbar halus;ketumbar sangrai;tumbar,418.0,14.1,16.1,54.2,630.0,17.9,4.6,0.0,,dataset
+Kluwek,,248.0,8.0,19.2,10.8,32.0,1.6,0.0,0.0,,dataset
+Kopi bubuk instant,bubuk kopi;kopi;kopi bubuk,129.0,12.3,0.5,35.0,179.0,5.6,0.0,0.0,,dataset
+Koya,bubuk koya,366.0,4.2,4.3,77.5,153.0,7.0,0.0,0.0,,dataset
+"Kunyit, segar",bubuk kunyit;kunyit;kunyit / kunyit bubuk;kunyit bakar;kunyit bubuk;kunyit halus;kunyit sangrai;kunyit segar;turmeric,53.82,1.56,2.11,7.1,18.72,2.57,0.31,0.0,,dataset
+"Labu kuning, segar",labu kuning,37.74,1.26,0.37,7.4,29.6,0.52,1.11,0.0,,dataset
+"Labu siam, segar",labu siam;manisa,24.9,0.5,0.08,5.56,11.62,0.41,0.83,0.0,,dataset
+"Lemon, segar",lemon,34.0,0.5,0.8,6.2,23.0,0.3,0.2,0.0,,dataset
+"Lobak, segar",lobak,18.27,0.78,0.09,3.65,30.45,0.52,0.17,0.0,,dataset
+Madu,,294.0,0.3,0.0,79.5,5.0,0.9,0.2,0.0,,dataset
+"Makaroni, mentah",makaroni,353.0,8.7,0.4,78.7,20.0,0.3,1.4,0.0,,dataset
+"Mangga muda, segar",mangga muda,43.07,0.36,0.29,11.02,8.76,0.29,0.07,0.0,,dataset
+Margarin,margarin rose brand;margarin rose brand cair,720.0,0.6,81.0,0.4,20.0,0.0,0.0,606.0,,dataset
+"Melinjo, segar",melinjo,39.6,3.0,0.42,7.98,97.8,1.68,0.0,0.0,,dataset
+"Melon, segar",melon,21.46,0.35,0.23,4.52,6.96,0.23,0.06,0.0,,dataset
+Mentega,,742.0,0.5,81.6,1.4,15.0,1.1,0.4,1.0,,dataset
+"Merica, kering",black pepper;bubuk merica;merica;merica bubuk;merica butir;merica halus;merica utuh;pepper,365.0,11.5,6.8,64.4,460.0,16.4,1.1,0.0,,dataset
+Minyak kelapa,coconut oil;cooking oil;minyak;minyak goreng;minyak goreng rose brand;minyak goreng rosebrand;minyak goreng untuk menggoreng;minyak goreng untuk menumis;minyak rose brand;minyak untuk menggoreng;minyak untuk mengoreng;minyak untuk menumis;minyak untuk menumis bumbu;minyak utk menumis;oil;vegetable oil,870.0,1.0,98.0,0.0,0.0,0.0,0.0,0.0,,dataset
+"Nanas, segar",nanas;nanas segar,21.2,0.32,0.16,5.25,11.66,0.48,0.05,0.0,,dataset
+"Nangka muda, segar",nangka muda,45.6,1.6,0.32,9.04,36.0,0.4,0.08,0.0,,dataset
+Nasi,cooked rice;rice;steamed rice,180.0,3.0,0.3,39.8,25.0,0.4,0.6,0.0,,dataset
+Oncom,,187.0,13.0,6.0,22.6,96.0,27.0,0.0,0.0,,dataset
+"Pepaya muda, segar",pepaya muda,18.85,1.36,0.07,3.19,32.5,0.26,0.0,0.0,,dataset
+"Petai, segar",petai;pete;pete goreng;pete segar,33.12,1.94,0.4,5.47,5.04,0.58,0.29,0.0,,dataset
+"Pisang ambon, segar",pisang ambon,81.0,0.75,0.6,18.22,15.0,0.15,0.15,0.0,,dataset
+"Pisang kepok, segar",pisang kepok,81.75,0.6,0.38,19.73,7.5,0.38,0.15,0.0,,dataset
+"Rebon, kering, mentah",rebon,299.0,59.4,3.6,3.2,2.31,21.4,0.0,0.0,,dataset
+"Rebon, udang kecil, segar",ebi;ebi bubuk;ebi goreng;ebi halus;ebi kering;ebi sangrai;udang kecil,81.0,16.2,1.2,0.7,757.0,2.2,1.2,18.0,,dataset
+"Rebung, segar",rebung,7.0,0.22,0.03,1.48,0.84,0.14,0.11,0.0,,dataset
+"Rimbang, segar",rimbang,71.25,1.52,0.57,15.01,52.25,0.57,0.38,0.0,,dataset
+Santan murni,bks santan kara;coconut milk;santan;santan agak kental;santan bubuk;santan cair;santan cair instant;santan cair rose brand;santan instan;santan instan kara;santan instan rose brand;santan instant;santan instant rose brand;santan kara;santan kara instant;santan kental;santan kental instan;santan kental rose brand;santan rose brand;santan rose brand instan;santan rosebrand;santan sedang,324.0,4.2,34.3,5.6,14.0,1.9,0.9,0.0,,dataset
+Saos tomat,ketchup;tomato sauce,110.0,2.0,0.4,24.5,12.0,0.8,0.3,0.0,,dataset
+"Sapi, hati, sosis (liverworst)",ati sapi,274.0,16.0,22.0,3.0,20.0,4.0,2.2,1.2,,dataset
+"Sawi, segar",ikat sawi;mustard greens;sawi;sawi segar potong-potong,24.36,2.0,0.26,3.48,191.4,2.52,0.17,0.0,,dataset
+Sayur asem,,29.0,0.7,0.6,5.0,40.0,3.1,0.0,14.0,,dataset
+"Selada air, segar",selada air,11.9,2.17,0.14,1.54,66.5,1.68,0.14,0.0,,dataset
+"Selada, segar",daun selada;ikat selada;lettuce;selada,12.42,0.83,0.14,2.0,15.18,0.35,0.14,0.0,,dataset
+"Seledri, segar",celery;daun seledri;daun seledri cincang;daun seledri iris;daun seledri iris halus;daun sledri;daun sledri cincang;seledri;seledri iris;sledri,14.49,0.63,0.06,2.9,31.5,0.63,0.25,0.0,,dataset
+"Semangka, segar",semangka,12.88,0.23,0.09,3.17,3.22,0.09,0.05,0.0,,dataset
+Semur jengkol,semur jengkol pedas,212.0,6.0,10.0,29.1,77.0,1.0,0.0,0.0,,dataset
+Spaghetti,spaghetti instan;spaghetti kering,139.0,7.4,2.1,22.6,109.0,4.7,0.0,42.0,,dataset
+Susu bubuk,susu cair,513.0,24.6,30.0,36.2,904.0,0.6,4.1,476.0,,dataset
+Susu kental manis,,343.0,8.2,10.0,55.0,275.0,0.2,1.0,155.0,,dataset
+Tahu goreng,fried tofu;tahu;tahu coklat;tahu putih;tahu putih besar;tahu putih potong kotak;tahu putih sedang;tofu,115.0,9.7,8.5,2.5,229.0,4.1,1.3,0.0,,dataset
+"Taoge, segar",taoge,34.0,3.7,1.2,4.3,166.0,0.8,0.4,0.0,,dataset
+Tauco,,184.0,11.4,5.5,22.2,72.0,6.0,1.0,0.0,,dataset
+"Telur ayam ras, segar",butir telur;butir telur ayam;butir telur ayam rebus;butir telur rebus;egg;eggs;telur;telur ayam;telur ayam mentah;telur ayam ras;telur ayam rebus;telur rebus;telur rebus iris;telur ukuran sedang;telur untuk adonan;telur untuk celupan;telur utuh;telur yang sudah direbus,137.06,11.04,9.61,0.62,76.54,2.67,0.89,54.29,,dataset
+"Tempe kedelai murni, mentah",iris tempe;kering tempe;tempe;tempe goreng;tempe kedelai murni;tempe potong korek api;tempe ukuran sedang;tempeh,201.0,20.8,8.8,13.5,155.0,4.0,1.7,0.0,,dataset
+Tepung singkong/ Tapioka,tapioca flour;tapioca starch;tepung tapioka;tepung tapioka rose brand;tepung tapioka rosebrand,363.0,1.1,0.5,88.2,84.0,1.0,0.1,0.0,,dataset
+Terasi,shrimp paste;terasi abc;terasi bakar;terasi bubuk;terasi goreng;terasi instan;terasi matang;terasi sangrai bubuk;trasi;trasi abc;trasi sangrai,155.0,22.3,2.9,9.9,3.81,78.5,2.4,0.0,,dataset
+"Terong asam, segar",terong asam;terong asem,37.0,2.0,0.4,6.3,13.0,1.5,0.3,0.0,,dataset
+"Terong, segar",aubergine;eggplant;terong;terong besar,28.0,1.1,0.2,5.5,15.0,0.4,0.1,0.0,,dataset
+"Tomat merah, segar",tomat;tomat besar;tomat iris;tomat matang;tomat merah;tomat merah besar;tomat merah sedang;tomat merah segar;tomat merah ukuran besar;tomat merah ukuran sedang;tomat oren;tomat uk sedang;tomat ukuran besar;tomat ukuran sedang;tomato;tomatoes,24.0,1.3,0.5,4.7,8.0,0.6,0.2,0.0,,dataset
+"Tomat muda, segar",tomat hijau;tomat hijau besar;tomat hijau iris;tomat hijau uk sedang;tomat ijo;tomat muda,22.8,1.9,0.66,3.14,4.75,0.48,0.19,0.0,,dataset
+"Ubi jalar, kuning, segar",ubi jalar;ubi jalar kuning,101.15,0.43,0.34,21.34,25.5,0.34,0.17,0.0,,dataset
+"Udang, segar",bubuk udang;prawn;prawns;shrimp;udang;udang buang kulitnya;udang goreng;udang kering;udang rebus;udang sedang;udang segar;udang segar cincang;udang ukuran sedang,61.88,14.28,0.14,0.07,92.48,5.44,0.88,12.24,,dataset
+"Wortel, segar",carrot;carrots;wortel;wortel potong potong;wortel ukuran besar,28.8,0.8,0.48,6.32,36.0,0.8,0.24,0.0,,dataset
+daging sapi,sapi;beef;sirloin,150.0,21.0,7.0,0.0,,,,,,sample_approx
+ikan lele,lele;catfish,105.0,18.0,3.0,0.0,,,,,,sample_approx
+brokoli,broccoli,34.0,2.8,0.4,7.0,,,,,,sample_approx
+garam,salt,0.0,0.0,0.0,0.0,,,,,,sample_approx
+susu,milk;susu sapi,61.0,3.2,3.3,4.8,,,,,,sample_approx
+tepung terigu,terigu;flour;wheat flour,364.0,10.0,1.0,76.0,,,,,,sample_approx
+mie telur,mie;noodles;egg noodles,384.0,14.0,4.4,72.0,,,,,,sample_approx

@@ -70,6 +70,10 @@ if submitted:
             "Not found in the food database (excluded from totals): "
             + ", ".join(nutrition.unmatched)
         )
+    with st.expander("Micronutrients per serving (partial: matched dataset foods only)"):
+        micro = {"Calcium (mg)": "calcium_mg", "Iron (mg)": "iron_mg", "Zinc (mg)": "zinc_mg",
+                 "Retinol (µg)": "retinol_ug", "Beta-carotene (µg)": "betacarotene_ug"}
+        st.table({label: [f"{ps[col]:g}"] for label, col in micro.items()})
     with st.expander("Nutrition breakdown by ingredient"):
         st.dataframe(nutrition.per_ingredient, use_container_width=True, hide_index=True)
     st.caption("Estimates only, based on a food-composition table. Not medical advice.")

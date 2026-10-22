@@ -7,6 +7,7 @@ from pathlib import Path
 import pandas as pd
 
 NUTRIENT_COLS = ["kcal", "protein_g", "fat_g", "carbs_g"]
+MICRO_COLS = ["calcium_mg", "iron_mg", "zinc_mg", "retinol_ug", "betacarotene_ug"]
 DEFAULT_DB = Path(__file__).resolve().parent.parent / "data" / "food_composition.csv"
 
 
@@ -23,6 +24,9 @@ def load_food_db(path: Path | str = DEFAULT_DB) -> pd.DataFrame:
     if missing:
         raise ValueError(f"Food database missing columns: {missing}")
     df["aliases"] = df["aliases"].fillna("")
+    for c in MICRO_COLS:  # optional columns
+        if c not in df.columns:
+            df[c] = float("nan")
     return df
 
 
@@ -40,10 +44,10 @@ class NutritionCalculator:
         self.fuzzy_cutoff = fuzzy_cutoff
         self.lookup: dict[str, int] = {}
         for i, row in self.df.iterrows():
-            self.lookup[normalize(row["name"])] = i
+            self.lookup.setdefault(normalize(row["name"]), i)  # first entry wins on clashes
             for alias in str(row["aliases"]).split(";"):
                 if alias.strip():
-                    self.lookup[normalize(alias)] = i
+                    self.lookup.setdefault(normalize(alias), i)
 
     def match(self, ingredient_name: str) -> int | None:
         key = normalize(ingredient_name)
@@ -59,19 +63,20 @@ class NutritionCalculator:
         return self.lookup[close[0]] if close else None  # 3. fuzzy
 
     def calculate(self, recipe) -> NutritionResult:
+        cols = NUTRIENT_COLS + MICRO_COLS
         rows, unmatched = [], []
         for ing in recipe.ingredients:
             idx = self.match(ing.name)
             if idx is None:
                 unmatched.append(ing.name)
                 rows.append({"ingredient": ing.name, "grams": ing.quantity_g, "matched_to": None,
-                             **{c: None for c in NUTRIENT_COLS}})
+                             **{c: None for c in cols}})
                 continue
             food = self.df.loc[idx]
             factor = ing.quantity_g / 100.0
             rows.append({"ingredient": ing.name, "grams": ing.quantity_g, "matched_to": food["name"],
-                         **{c: round(float(food[c]) * factor, 1) for c in NUTRIENT_COLS}})
+                         **{c: round(float(food[c]) * factor, 1) for c in cols}})
         per_ingredient = pd.DataFrame(rows)
-        total = {c: round(float(per_ingredient[c].sum(skipna=True)), 1) for c in NUTRIENT_COLS}
-        per_serving = {c: round(v / recipe.servings, 1) for c, v in total.items()}
+        total = {c: round(float(per_ingredient[c].sum(skipna=True)), 2) for c in cols}
+        per_serving = {c: round(v / recipe.servings, 2) for c, v in total.items()}
         return NutritionResult(per_ingredient, total, per_serving, unmatched)
