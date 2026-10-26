@@ -1,79 +1,94 @@
 import streamlit as st
 from dotenv import load_dotenv
 
-from recipe_gen.llm import generate_recipe
-from recipe_gen.nutrition import NutritionCalculator, load_food_db
-
 load_dotenv()
 
-st.set_page_config(page_title="AI Recipe Generator", page_icon="🍳", layout="centered")
+from ui import page_cook, page_goals, page_pantry, page_plan, page_recipes, page_recovery  # noqa: E402
+from ui import state as S  # noqa: E402
+
+st.set_page_config(page_title="Vitality Kitchen • NutriChef", page_icon="🥗", layout="centered")
+S.init_state()
+
+from recipe_gen.ui_strings import get_text
+from recipe_gen.ui_styles import get_custom_css
+
+# Inject Vitality Kitchen Mobile Design System CSS
+st.markdown(get_custom_css(), unsafe_allow_html=True)
+
+PAGE_FUNCS = {"Pantry": page_pantry, "Goals": page_goals, "Recipes": page_recipes, "Cook": page_cook,
+              "Plan": page_plan, "Recovery": page_recovery}
 
 
-@st.cache_resource
-def get_calculator() -> NutritionCalculator:
-    return NutritionCalculator(load_food_db())
-
-
-st.title("🍳 AI Recipe Generator")
-st.caption("Indonesian & international cuisine")
-
-with st.form("inputs"):
-    ingredients = st.text_area(
-        "Available ingredients",
-        placeholder="e.g. ayam, bawang merah, bawang putih, tomat, kecap manis",
-    )
-    preferences = st.text_input(
-        "Preferences / restrictions (optional)",
-        placeholder="e.g. spicy, no peanuts, low oil",
-    )
-    col1, col2 = st.columns(2)
-    cuisine = col1.radio("Cuisine", ["Indonesian", "International"], horizontal=True)
-    servings = col2.number_input("Servings", min_value=1, max_value=20, value=2)
-    submitted = st.form_submit_button("Generate recipe", type="primary")
-
-if submitted:
-    if not ingredients.strip():
-        st.warning("Please enter at least one ingredient.")
-        st.stop()
+def _import() -> None:
+    f = st.session_state.get("import_file")
     try:
-        with st.spinner("Cooking up a recipe..."):
-            recipe = generate_recipe(ingredients, preferences, cuisine, int(servings))
-            nutrition = get_calculator().calculate(recipe)
+        S.import_data(f.getvalue().decode("utf-8"))
+        st.session_state.import_msg = "Your data was loaded."
     except Exception as e:
-        st.error(f"Something went wrong: {e}")
-        st.stop()
+        st.session_state.import_msg = f"Could not load that file: {e}"
 
-    st.header(recipe.title)
-    meta = f"{recipe.cuisine} · {recipe.servings} servings"
-    if recipe.cook_time_minutes:
-        meta += f" · {recipe.cook_time_minutes} min"
-    st.caption(meta)
 
-    st.subheader("Ingredients")
-    for ing in recipe.ingredients:
-        st.markdown(f"- {ing.name} — {ing.display_quantity} ({ing.quantity_g:g} g)")
+# Vitality Kitchen Mobile App Bar & Bilingual Switcher
+header_col1, header_col2 = st.columns([3, 1])
+with header_col1:
+    cur_lang = st.session_state.get("lang", "id")
+    streak_text = get_text("streak_label", lang=cur_lang)
+    sub_title = get_text("app_subtitle", lang=cur_lang)
+    st.markdown(
+        f"""
+        <div class="vk-header">
+            <div class="vk-logo-group">
+                <div class="vk-logo-icon">🥗</div>
+                <div class="vk-title-wrap">
+                    <span class="vk-app-name">Vitality Kitchen</span>
+                    <span class="vk-app-sub">{sub_title}</span>
+                </div>
+            </div>
+            <div class="vk-streak-badge">🔥 {streak_text}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
-    st.subheader("Instructions")
-    for i, step in enumerate(recipe.steps, 1):
-        st.markdown(f"{i}. {step}")
+with header_col2:
+    current_lang_idx = 0 if st.session_state.get("lang", "id") == "id" else 1
+    selected_lang = st.radio(
+        "Bahasa",
+        options=["🇮🇩 ID", "🇬🇧 EN"],
+        index=current_lang_idx,
+        horizontal=True,
+        key="lang_toggle",
+        label_visibility="collapsed",
+    )
+    new_lang = "id" if "ID" in selected_lang else "en"
+    if new_lang != st.session_state.get("lang"):
+        st.session_state.lang = new_lang
 
-    st.subheader("Estimated nutrition (per serving)")
-    ps = nutrition.per_serving
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Calories", f"{ps['kcal']:g} kcal")
-    c2.metric("Protein", f"{ps['protein_g']:g} g")
-    c3.metric("Fat", f"{ps['fat_g']:g} g")
-    c4.metric("Carbs", f"{ps['carbs_g']:g} g")
+if S.is_demo():
+    demo_msg = (
+        "⚠️ **Mode Demo Aktif**: Kunci API Gemini tidak ditemukan, sehingga resep menggunakan template cerdas bawaan tanpa biaya. "
+        "Tambahkan `GEMINI_API_KEY` di `.env` untuk generasi AI langsung."
+        if st.session_state.get("lang") == "id"
+        else "⚠️ **Demo mode**: no Gemini API key found, so recipes come from a built-in offline template. "
+        "Add `GEMINI_API_KEY` in `.env` to enable live generative AI."
+    )
+    st.warning(demo_msg)
 
-    if nutrition.unmatched:
-        st.warning(
-            "Not found in the food database (excluded from totals): "
-            + ", ".join(nutrition.unmatched)
-        )
-    with st.expander("Micronutrients per serving (partial: matched dataset foods only)"):
-        micro = {"Calcium (mg)": "calcium_mg", "Iron (mg)": "iron_mg", "Zinc (mg)": "zinc_mg",
-                 "Retinol (µg)": "retinol_ug", "Beta-carotene (µg)": "betacarotene_ug"}
-        st.table({label: [f"{ps[col]:g}"] for label, col in micro.items()})
-    with st.expander("Nutrition breakdown by ingredient"):
-        st.dataframe(nutrition.per_ingredient, use_container_width=True, hide_index=True)
-    st.caption("Estimates only, based on a food-composition table. Not medical advice.")
+cols = st.columns(len(S.PAGES))
+for col, (name, icon) in zip(cols, S.PAGES):
+    col.button(f"{icon} {name}", key=f"nav_{name}", use_container_width=True, on_click=S.go, args=(name,),
+               type="primary" if st.session_state.page == name else "secondary")
+
+PAGE_FUNCS[st.session_state.page].show()
+
+st.divider()
+with st.expander("💾 Save or load my data"):
+    st.caption("Your pantry, settings, saved recipes, meal plan and log live only in this browser session. "
+               "Download them to keep them, and load the file next time.")
+    st.download_button("⬇ Download my data", S.export_data(), file_name="nutrichef_data.json", key="dl_data")
+    st.file_uploader("Load a saved file", type=["json"], key="import_file")
+    if st.session_state.get("import_file") is not None:
+        st.button("Load this file", key="do_import", on_click=_import)
+    if st.session_state.get("import_msg"):
+        st.caption(st.session_state.pop("import_msg"))
+st.caption("Nutrition values are estimates from a food-composition table. Not medical advice.")

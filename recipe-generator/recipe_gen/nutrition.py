@@ -8,6 +8,7 @@ import pandas as pd
 
 NUTRIENT_COLS = ["kcal", "protein_g", "fat_g", "carbs_g"]
 MICRO_COLS = ["calcium_mg", "iron_mg", "zinc_mg", "retinol_ug", "betacarotene_ug"]
+WATER_NAMES = {"air", "water", "air matang", "air panas", "air dingin", "air es", "es batu", "ice"}
 DEFAULT_DB = Path(__file__).resolve().parent.parent / "data" / "food_composition.csv"
 
 
@@ -66,6 +67,10 @@ class NutritionCalculator:
         cols = NUTRIENT_COLS + MICRO_COLS
         rows, unmatched = [], []
         for ing in recipe.ingredients:
+            if normalize(ing.name) in WATER_NAMES:  # water adds no nutrition and is not "missing" data
+                rows.append({"ingredient": ing.name, "grams": ing.quantity_g, "matched_to": "Water",
+                             **{c: 0.0 for c in cols}})
+                continue
             idx = self.match(ing.name)
             if idx is None:
                 unmatched.append(ing.name)
