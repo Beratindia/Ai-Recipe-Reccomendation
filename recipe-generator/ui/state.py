@@ -11,12 +11,13 @@ from recipe_gen.demo import demo_llm
 from recipe_gen.goals import DIET_PRESETS, EXCLUSIONS, blocked_by_keywords, macro_grams, next_meal_target, violations
 from recipe_gen import persist
 from recipe_gen.goals import SLOT_SHARES
-from recipe_gen.llm import GenerationRequest, call_llm, call_llm_vision, generate_recipes, get_api_key, scan_fridge
+from recipe_gen.llm import GenerationRequest, call_llm, generate_recipes, get_api_key
 from recipe_gen.nutrition import NutritionCalculator, load_food_db
 from recipe_gen.schema import Recipe
 from recipe_gen.wellness import CONDITIONS
 
-PAGES = [("Pantry", "🥫"), ("Goals", "🎯"), ("Recipes", "✨"), ("Cook", "📖"), ("Plan", "🗓️"), ("Recovery", "🌿")]
+PAGES = [("Pantry", ":material/kitchen:"), ("Goals", ":material/target:"), ("Recipes", ":material/restaurant_menu:"),
+         ("Cook", ":material/skillet:"), ("Plan", ":material/calendar_month:"), ("Recovery", ":material/health_and_safety:")]
 PREP_OPTIONS = {"Under 15 min": 15, "15-30 min": 30, "30-45 min": 45, "Any": None}
 EQUIPMENT = ["Stovetop", "Air Fryer", "Oven", "Rice Cooker", "Blender", "Steamer", "Microwave"]
 SORTS = ["Best match", "Highest protein", "Lowest calories", "Closest to target"]
@@ -25,7 +26,7 @@ DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 # widget keys whose values must survive switching pages (Streamlit drops widgets that are not rendered)
 PERSIST = ["cuisine", "servings", "prefs", "equipment", "prep_time", "diet", "p_pct", "c_pct", "f_pct",
            "daily_kcal", "meals_pd", "target_mode", "custom_kcal", "tolerance", "goal", "exclusions",
-           "condition", "plan_day", "sort_by", "cat", "quick_filters", "custom_condition", "lang"]
+           "condition", "plan_day", "sort_by", "cat", "quick_filters", "custom_condition"]
 
 DEFAULTS = {
     "page": "Pantry", "pantry": [], "cuisine": "Indonesian", "servings": 2, "prefs": "",
@@ -34,8 +35,8 @@ DEFAULTS = {
     "goal": "Maintenance", "exclusions": [], "condition": "Flu & Cold", "plan_day": "Mon", "sort_by": "Best match",
     "cat": "Proteins", "recipes": [], "removed_notes": [], "current": None, "cook_servings": None,
     "cook_step": 0, "saved": [], "plan": {}, "recipe_context": "", "gen_error": "", "log": [],
-    "quick_filters": [], "custom_condition": "", "scan_found": [], "plan_notes": [], "recovery_meals": [],
-    "recovery_notes": [], "recovery_for": "", "lang": "id",
+    "quick_filters": [], "custom_condition": "", "plan_notes": [], "recovery_meals": [],
+    "recovery_notes": [], "recovery_for": "",
 }
 
 SUGGESTIONS = {
@@ -210,7 +211,7 @@ def generate_for_recipes(condition: str | None = None) -> bool:
     """Generate a fresh batch for the Recipes page. Returns True if the page should switch."""
     s = st.session_state
     if not s.pantry:
-        st.toast("Add at least one ingredient to your pantry first.", icon="🥫")
+        st.toast("Add at least one ingredient to your pantry first.")
         return False
     try:
         with st.spinner("Your AI chef is cooking up ideas..."):
@@ -230,15 +231,6 @@ def open_recipe(recipe: Recipe) -> None:
 def save_recipe(recipe: Recipe) -> None:
     if all(r.title != recipe.title for r in st.session_state.saved):
         st.session_state.saved.append(recipe)
-
-
-# ------------------------------------------------------------- fridge scan
-
-def scan_photo(data: bytes, mime: str) -> list[str]:
-    """Names of ingredients seen in a photo (needs a real API key; the demo model cannot see images)."""
-    if is_demo():
-        raise RuntimeError("Photo scan needs a Gemini API key. Add one to .env or the app secrets.")
-    return scan_fridge(data, mime, vision=call_llm_vision)
 
 
 # --------------------------------------------------------------- daily log

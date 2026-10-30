@@ -38,7 +38,7 @@ def _nudge(day: str, slot: str, adj) -> None:
 def _slot(day: str, slot: str, target: int) -> None:
     s = st.session_state
     e = s.plan.get(day, {}).get(slot)
-    with st.container(border=True):
+    with st.container(border=True, key=f"card_{day}_{slot}"):
         st.caption(f"**{slot.upper()}** · {SLOT_TIMES[slot]} · goal {target} kcal")
         if not e:
             st.write("Nothing planned yet.")
@@ -49,18 +49,18 @@ def _slot(day: str, slot: str, target: int) -> None:
         r = e["recipe"]
         a = S.analyzed(r, target)
         c1, c2 = st.columns([4, 1])
-        c1.markdown(f"**{r.title}**" + ("  ✅ accepted" if e["accepted"] else ""))
+        c1.markdown(f"**{r.title}**" + ("  (accepted)" if e["accepted"] else ""))
         c2.metric("kcal", f"{a.kcal:.0f}", label_visibility="collapsed")
         if r.description:
             st.caption(r.description)
         bits = [f"{a.per_serving['protein_g']:.0f} g protein", f"{a.per_serving['carbs_g']:.0f} g carbs",
                 f"{a.per_serving['fat_g']:.0f} g fat"]
         if r.cook_time_minutes:
-            bits.append(f"⏱ {r.cook_time_minutes} min")
+            bits.append(f"{r.cook_time_minutes} min")
         st.write(" · ".join(bits))
-        st.caption(f"Fits slot by {a.delta:+.0f} kcal" + (" ✔" if abs(a.delta) <= max(S.get_goals().tolerance, 15) else ""))
+        st.caption(f"Fits slot by {a.delta:+.0f} kcal" + (" (within range)" if abs(a.delta) <= max(S.get_goals().tolerance, 15) else ""))
         b = st.columns(5)
-        b[0].button("Accept", key=f"acc_{day}_{slot}", type="primary", disabled=e["accepted"],
+        b[0].button("Accept", icon=":material/check:", key=f"acc_{day}_{slot}", type="primary", disabled=e["accepted"],
                     on_click=_accept, args=(day, slot), use_container_width=True)
         if b[1].button("Swap", key=f"swap_{day}_{slot}", use_container_width=True, help="Generate a different meal"):
             _run(S.fill_day, day, slot)
@@ -82,12 +82,18 @@ def show() -> None:
     # week overview
     st.pills("Day", S.DAYS, key="plan_day", label_visibility="collapsed")
     day = s.plan_day or "Mon"
-    cols = st.columns(7)
-    for col, d in zip(cols, S.DAYS):
-        slots = s.plan.get(d, {})
-        k = S.day_totals(d)["kcal"] if slots else 0
-        mark = "✅" if slots and all(e["accepted"] for e in slots.values()) and len(slots) == len(SLOT_SHARES) else ("•" if slots else "–")
-        col.caption(f"{'**' + d + '**' if d == day else d}\n\n{mark} {k / 1000:.1f}k" if k else f"{'**' + d + '**' if d == day else d}\n\n{mark}")
+    with st.container(key="weekstrip"):
+        cols = st.columns(7)
+        for col, d in zip(cols, S.DAYS):
+            slots = s.plan.get(d, {})
+            if slots and len(slots) == len(SLOT_SHARES) and all(e["accepted"] for e in slots.values()):
+                status = "Done"
+            else:
+                status = "Planned" if slots else "Empty"
+            kcal = f"{S.day_totals(d)['kcal'] / 1000:.1f}k" if slots else "-"
+            cls = "wk wk-on" if d == day else "wk"
+            col.markdown(f"<div class='{cls}'><b>{d}</b><span>{kcal}</span><i>{status}</i></div>",
+                         unsafe_allow_html=True)
 
     # daily nutrition engine
     tot = S.day_totals(day)
@@ -97,7 +103,8 @@ def show() -> None:
     st.progress(min(tot["kcal"] / g.daily_kcal, 1.0),
                 text=f"{tot['kcal']:,} kcal planned · {remaining:,} remaining" if remaining >= 0 else
                 f"{tot['kcal']:,} kcal planned · {-remaining:,} over budget")
-    m1, m2, m3 = st.columns(3)
+    macro_box = st.container(key="macros3_day")
+    m1, m2, m3 = macro_box.columns(3)
     for col, label, key, tkey in ((m1, "Protein", "protein_g", "protein_g"), (m2, "Carbs", "carbs_g", "carbs_g"),
                                   (m3, "Fats", "fat_g", "fat_g")):
         pct = round(100 * tot[key] / daily[tkey]) if daily[tkey] else 0
@@ -107,10 +114,10 @@ def show() -> None:
     st.subheader("AI calorie architect")
     st.caption("Plans meals that balance your calories and macros. Accepted meals are kept.")
     c1, c2 = st.columns(2)
-    if c1.button(f"✨ Auto-fill {day}", key="fill_day", type="primary", use_container_width=True):
+    if c1.button(f"Auto-fill {day}", key="fill_day", type="primary", use_container_width=True):
         _run(S.fill_day, day)
         st.rerun()
-    if c2.button("🗓️ Auto-fill whole week", key="fill_week", use_container_width=True):
+    if c2.button("Auto-fill whole week", key="fill_week", use_container_width=True):
         _run(_fill_week)
         st.rerun()
     for note in s.plan_notes:
@@ -137,6 +144,7 @@ def show() -> None:
         st.table({"Ingredient": [n.title() for n, _ in items], "Amount": [f"{g_:g} g" for _, g_ in items]})
         text = "Grocery list\n" + "\n".join(f"- {n.title()}: {g_:g} g" for n, g_ in items)
         c1, c2 = st.columns(2)
-        c1.download_button("⬇ Download list", text, file_name="grocery_list.txt", use_container_width=True)
+        c1.download_button("Download list", text, file_name="grocery_list.txt", use_container_width=True,
+                           icon=":material/download:")
         c2.button("I bought these: add to pantry", key="bought", use_container_width=True,
                   on_click=lambda: S.add_pantry(", ".join(n for n, _ in items)))

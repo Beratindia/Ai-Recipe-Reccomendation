@@ -22,25 +22,6 @@ def show() -> None:
     for i, name in enumerate(n for n in S.SUGGESTIONS[s.cat or "Proteins"] if n not in S.pantry_names()):
         cols[i % 4].button(f"+ {name}", key=f"sg_{name}", on_click=S.add_pantry, args=(name,), use_container_width=True)
 
-    # ---- add ingredients: photo ("Snap Fridge")
-    with st.expander("📷 Snap Fridge: scan a photo for ingredients"):
-        if S.is_demo():
-            st.info("Photo scanning needs a Gemini API key (the offline demo model cannot read images).")
-        photo = st.camera_input("Take a photo", key="cam") or st.file_uploader(
-            "or upload one", type=["jpg", "jpeg", "png", "webp"], key="upload")
-        if photo is not None and st.button("Scan photo", key="scan_btn", disabled=S.is_demo()):
-            try:
-                with st.spinner("Looking at your photo..."):
-                    s.scan_found = S.scan_photo(photo.getvalue(), photo.type or "image/jpeg")
-            except Exception as e:
-                st.error(f"Could not scan the photo: {e}")
-        if s.scan_found:
-            picked = st.multiselect("Found. Untick anything wrong:", s.scan_found, default=s.scan_found, key="scan_pick")
-            if st.button("Add to pantry", key="scan_add"):
-                S.add_pantry(", ".join(picked))
-                s.scan_found = []
-                st.rerun()
-
     # ---- current pantry
     n = len(s.pantry)
     c1, c2 = st.columns([3, 1])
@@ -53,7 +34,7 @@ def show() -> None:
         c1, c2 = st.columns([5, 1])
         label = item["name"].title() + (f" · {item['qty']}" if item["qty"] else "")
         c1.write(label)
-        c2.button("✕", key=f"rm_{item['name']}", on_click=S.remove_pantry, args=(item["name"],), help="Remove")
+        c2.button("Remove", icon=":material/close:", key=f"rm_{item['name']}", on_click=S.remove_pantry, args=(item["name"],))
 
     # ---- cooking setup
     st.subheader("Cooking setup")
@@ -70,7 +51,7 @@ def show() -> None:
         total = len(best.match.have) + len(best.match.missing)
         st.info(f"**Smart prediction:** {best.recipe.title}. Matches {len(best.match.have)} of {total} ingredients.")
 
-    if st.button(f"✨ Generate recipes with {n} ingredient{'s' if n != 1 else ''}", type="primary",
-                 use_container_width=True, key="btn_generate"):
+    if st.button(f"Generate recipes with {n} ingredient{'s' if n != 1 else ''}", type="primary",
+                 use_container_width=True, key="btn_generate", icon=":material/restaurant_menu:"):
         if S.generate_for_recipes():
             st.rerun()

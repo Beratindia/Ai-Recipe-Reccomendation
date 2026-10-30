@@ -47,23 +47,23 @@ def _plan_week() -> None:
 
 def _card(idx: int, a: Analyzed, tol: int) -> None:
     r = a.recipe
-    with st.container(border=True):
+    with st.container(border=True, key=f"card_{idx}"):
         top = st.columns([4, 1])
         top[0].subheader(r.title)
         if S.pantry_names():
             top[1].metric("Pantry match", f"{a.match.percent}%")
-        meta = [f"⏱ {r.cook_time_minutes} min" if r.cook_time_minutes else None, f"{r.difficulty} prep",
+        meta = [f"{r.cook_time_minutes} min" if r.cook_time_minutes else None, f"{r.difficulty} prep",
                 f"{r.servings} serving{'s' if r.servings != 1 else ''}"]
         st.caption(" · ".join(m for m in meta if m) + ("  ·  " + ", ".join(r.tags[:3]) if r.tags else ""))
         if r.description:
             st.write(r.description)
-        macro_metrics(a.per_serving)
+        macro_metrics(a.per_serving, f"r{idx}")
         if a.target_kcal is not None:
             ok = abs(a.delta) <= tol
             (st.success if ok else st.warning)(
                 f"{a.accuracy}% calorie accuracy · {a.delta:+.0f} kcal vs target {a.target_kcal}")
         if a.match.missing:
-            st.caption("🛒 Missing: " + ", ".join(m.title() for m in a.match.missing))
+            st.caption("Missing: " + ", ".join(m.title() for m in a.match.missing))
         if a.coverage < 85:
             st.caption(f"Nutrition covers {a.coverage}% of the ingredient weight; the rest is not in the food table.")
         if a.target_kcal is not None and abs(a.delta) > tol:
@@ -74,9 +74,9 @@ def _card(idx: int, a: Analyzed, tol: int) -> None:
                         f"{adj.new_kcal_per_serving:.0f} kcal.")
                 st.button("Apply micro-adjustment", key=f"adj_{idx}", on_click=_apply, args=(idx, adj))
         b1, b2, b3 = st.columns(3)
-        b1.button("📖 Start cooking", key=f"cook_{idx}", type="primary", on_click=S.open_recipe, args=(r,),
+        b1.button("Start cooking", icon=":material/play_arrow:", key=f"cook_{idx}", type="primary", on_click=S.open_recipe, args=(r,),
                   use_container_width=True)
-        b2.button("🔖 Save", key=f"save_{idx}", on_click=S.save_recipe, args=(r,), use_container_width=True)
+        b2.button("Save", icon=":material/bookmark:", key=f"save_{idx}", on_click=S.save_recipe, args=(r,), use_container_width=True)
         b3.button(f"Log {a.kcal:.0f} kcal", key=f"log_{idx}", on_click=_log, args=(a,), use_container_width=True)
 
 
@@ -86,7 +86,7 @@ def show() -> None:
     g = S.get_goals()
     tol = g.tolerance
 
-    with st.expander("🎯 Precision matcher: calorie target", expanded=not s.recipes):
+    with st.expander("Precision matcher: calorie target", expanded=not s.recipes):
         target_controls()
 
     if not s.recipes:
@@ -96,7 +96,7 @@ def show() -> None:
             st.warning(note)
         c1, c2 = st.columns(2)
         c1.button("Go to Pantry", on_click=S.go, args=("Pantry",), use_container_width=True)
-        if s.pantry and c2.button("✨ Generate now", type="primary", use_container_width=True):
+        if s.pantry and c2.button("Generate now", type="primary", use_container_width=True):
             if S.generate_for_recipes():
                 st.rerun()
         return
@@ -104,7 +104,7 @@ def show() -> None:
     bits = [f"{len(s.pantry)} pantry item{'s' if len(s.pantry) != 1 else ''}" if s.pantry else "any ingredients", g.diet,
             f"{g.target_kcal} kcal target" if g.target_kcal else None, ", ".join(g.exclusions) or None,
             f"for {s.recipe_context}" if s.recipe_context else None]
-    st.caption("Based on " + " • ".join(b for b in bits if b))
+    st.caption("Based on " + " · ".join(b for b in bits if b))
 
     st.pills("Sort", S.SORTS, key="sort_by")
     st.pills("Quick filters", list(FILTERS), selection_mode="multi", key="quick_filters")
@@ -123,19 +123,19 @@ def show() -> None:
             _card(idx, a, tol)
         top = items[0][1]
         if top.match.have:
-            st.success(f"♻️ **Zero food waste tip:** cooking {top.recipe.title} today uses up your "
+            st.success(f"**Zero food waste tip:** cooking {top.recipe.title} today uses up your "
                        + ", ".join(h.title() for h in top.match.have[:4]) + ".")
 
     c1, c2 = st.columns(2)
-    if c1.button("🪄 Regenerate with fresh ideas", key="regen", use_container_width=True):
+    if c1.button("Regenerate with fresh ideas", icon=":material/refresh:", key="regen", use_container_width=True):
         if S.generate_for_recipes(s.recipe_context or None):
             st.rerun()
-    if c2.button("🗓️ Generate 7-day meal plan", key="plan_week_btn", type="primary", use_container_width=True):
+    if c2.button("Generate 7-day meal plan", icon=":material/calendar_month:", key="plan_week_btn", type="primary", use_container_width=True):
         _plan_week()
         st.rerun()
 
     if s.saved:
-        with st.expander(f"🔖 Saved recipes ({len(s.saved)})"):
+        with st.expander(f"Saved recipes ({len(s.saved)})"):
             for i, r in enumerate(s.saved):
                 c1, c2 = st.columns([4, 1])
                 c1.write(f"**{r.title}**")

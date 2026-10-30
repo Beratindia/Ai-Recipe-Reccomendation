@@ -52,12 +52,13 @@ def show() -> None:
                     f"{max(budget - tot['kcal'], 0):.0f} remaining")
         st.caption(f"Protein {tot['protein_g']:.0f} g · Carbs {tot['carbs_g']:.0f} g · Fat {tot['fat_g']:.0f} g")
         for e in S.today_log():
-            st.write(f"• {e['title']}: {e['kcal']:.0f} kcal")
+            st.markdown(f"- {e['title']}: {e['kcal']:.0f} kcal")
         st.button("Clear today's log", key="clear_log", on_click=lambda: s.update(
             log=[e for e in s.log if e not in S.today_log()]))
     else:
         st.caption("Nothing logged today. Use “Log” on a recipe to track it here.")
 
-    if st.button("✨ Generate meals for this target", type="primary", use_container_width=True, key="btn_goal_gen"):
+    if st.button("Generate meals for this target", type="primary", use_container_width=True, key="btn_goal_gen",
+                 icon=":material/restaurant_menu:"):
         if S.generate_for_recipes():
             st.rerun()

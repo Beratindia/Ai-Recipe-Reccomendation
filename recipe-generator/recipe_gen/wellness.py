@@ -10,7 +10,6 @@ DISCLAIMER = (
 @dataclass(frozen=True)
 class Condition:
     name: str
-    icon: str
     summary: str
     gentle: tuple[tuple[str, str], ...]   # (food, why)
     limit: tuple[tuple[str, str], ...]    # (food, why)
@@ -20,7 +19,7 @@ class Condition:
 
 CONDITIONS: dict[str, Condition] = {
     "Flu & Cold": Condition(
-        "Flu & Cold", "🤧",
+        "Flu & Cold",
         "Appetite is often low and fluids matter. Warm, soft, easy-to-eat food usually goes down best.",
         (("Warm broth & soups", "Fluids and salt, easy to sip when you don't feel like eating"),
          ("Ginger & garlic", "Traditionally used for a warming, soothing effect"),
@@ -31,7 +30,7 @@ CONDITIONS: dict[str, Condition] = {
         "Warm, soft and brothy; easy to digest; low in oil; include ginger and/or garlic; moderate portion size.",
     ),
     "GERD & Acid Reflux": Condition(
-        "GERD & Acid Reflux", "🔥",
+        "GERD & Acid Reflux",
         "Many people find smaller, lower-fat, non-spicy meals cause fewer symptoms. Triggers differ per person.",
         (("Oatmeal, rice, bubur", "Mild and filling"),
          ("Steamed, boiled or baked lean fish & chicken", "Low fat, little irritation"),
@@ -45,7 +44,7 @@ CONDITIONS: dict[str, Condition] = {
         ("cabai", "cabe", "rawit", "sambal", "chili", "chilli", "cayenne"),
     ),
     "Sensitive Gut (IBS)": Condition(
-        "Sensitive Gut (IBS)", "🌀",
+        "Sensitive Gut (IBS)",
         "Triggers vary a lot between people. Simple, lightly spiced, well-cooked meals are a common starting point.",
         (("White rice, potato, plain noodles", "Easy to digest"),
          ("Eggs, tofu, chicken, fish", "Simple proteins"),
@@ -58,7 +57,7 @@ CONDITIONS: dict[str, Condition] = {
         "Mild spice; low oil; simple well-cooked ingredients; avoid dairy and large amounts of beans; modest portion.",
     ),
     "Muscle Recovery": Condition(
-        "Muscle Recovery", "💪",
+        "Muscle Recovery",
         "After hard training the body needs protein to repair and carbohydrate to refill energy stores.",
         (("Eggs, chicken, fish", "Complete protein"),
          ("Tempe & tahu", "Plant protein that is easy to find in Indonesia"),

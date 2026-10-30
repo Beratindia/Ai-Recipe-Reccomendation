@@ -7,7 +7,7 @@ with quantities, instructions, and estimated nutrition.
 
 | Page | What it does |
 |---|---|
-| **Pantry** | Add ingredients by typing, by category suggestions, or by photo ("Snap Fridge", needs the Gemini key). Pick equipment, max prep time, cuisine, servings. Shows a smart prediction (best pantry match so far). |
+| **Pantry** | Add ingredients by typing or from category suggestions. Pick equipment, max prep time, cuisine, servings. Shows a smart prediction (best pantry match so far). |
 | **Goals** | Diet presets (Balanced, Lean Muscle, Clean Keto, Mediterranean, Heart Healthy) with macro split in grams, calorie budget or custom target with tolerance, metabolic goal, dietary and allergy exclusions, today's intake log. |
 | **Recipes** | AI recipes with real nutrition from the food table, pantry match % and missing items, calorie accuracy vs target, one-click calorie micro-adjustment, sort and quick filters, save, log, zero-waste tip, regenerate, 7-day plan. |
 | **Cook** | Servings control (quantities rescale), nutrition per serving, pantry checklist, step-by-step with countdown timers read from the step text, save, download as text. |

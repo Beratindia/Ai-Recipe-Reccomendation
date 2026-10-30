@@ -28,17 +28,13 @@ def target_controls() -> None:
     st.radio("Metabolic goal", list(GOALS), key="goal", horizontal=True)
 
 
-def macro_metrics(ps: dict) -> None:
-    from recipe_gen.ui_styles import get_macro_badge_html
-    st.markdown(
-        get_macro_badge_html(
-            ps.get("kcal", 0),
-            ps.get("protein_g", 0),
-            ps.get("carbs_g", 0),
-            ps.get("fat_g", 0),
-        ),
-        unsafe_allow_html=True,
-    )
+def macro_metrics(ps: dict, key: str = "x") -> None:
+    with st.container(key=f"macros_{key}"):
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Energy", f"{ps['kcal']:.0f} kcal")
+        c2.metric("Protein", f"{ps['protein_g']:.0f} g")
+        c3.metric("Carbs", f"{ps['carbs_g']:.0f} g")
+        c4.metric("Fat", f"{ps['fat_g']:.0f} g")
 
 
 def micro_table(ps: dict) -> None:

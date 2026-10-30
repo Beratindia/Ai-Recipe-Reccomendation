@@ -169,10 +169,9 @@ def test_plan_nudge_changes_calories_and_load_file_restores_state():
     assert not fresh.exception
 
 
-def test_pantry_photo_scan_is_blocked_without_key_and_remove_clear_work():
+def test_pantry_remove_and_clear_work():
     at = new_app()
     at = add_pantry(at, "ayam, bayam")
-    assert any("Photo scanning needs a Gemini API key" in i.value for i in at.info)
     at = next(b for b in at.button if b.key == "rm_ayam").click().run()
     assert [i["name"] for i in at.session_state.pantry] == ["bayam"]
     at = press(at, "Clear all")

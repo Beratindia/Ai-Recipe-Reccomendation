@@ -117,41 +117,6 @@ def call_llm(system: str, user: str) -> str:
     return interaction.output_text
 
 
-SCAN_PROMPT = (
-    "List the food ingredients you can clearly see in this photo of a fridge, pantry or groceries. "
-    "Use simple common names in Indonesian (e.g. ayam, telur, bayam, tomat). Skip anything you are not sure about. "
-    'Reply with JSON only: {"items": ["..."]}'
-)
-
-
-def call_llm_vision(image_bytes: bytes, mime_type: str, prompt: str) -> str:
-    """Send an image plus a prompt, return raw text. Swap this function for another provider."""
-    from google import genai
-    from google.genai import types
-
-    client = genai.Client()
-    resp = client.models.generate_content(
-        model=os.getenv("LLM_MODEL", "gemini-3.8-flash"),
-        contents=[types.Part.from_bytes(data=image_bytes, mime_type=mime_type), prompt],
-    )
-    return resp.text
-
-
-def parse_scan(raw: str) -> list[str]:
-    """Ingredient names from a fridge-scan reply: cleaned, lower-case, de-duplicated."""
-    items = extract_json(raw).get("items", [])
-    out: list[str] = []
-    for it in items if isinstance(items, list) else []:
-        name = str(it).strip().lower()
-        if name and len(name) <= 40 and name not in out:
-            out.append(name)
-    return out
-
-
-def scan_fridge(image_bytes: bytes, mime_type: str, vision=call_llm_vision) -> list[str]:
-    return parse_scan(vision(image_bytes, mime_type, SCAN_PROMPT))
-
-
 def extract_json(text: str) -> dict:
     """Pull a JSON object out of the reply, tolerating code fences or stray text."""
     text = text.strip()

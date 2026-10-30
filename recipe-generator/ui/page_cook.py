@@ -37,7 +37,7 @@ def show() -> None:
 
     base = s.current
     st.subheader(base.title)
-    meta = [f"⏱ {base.cook_time_minutes} min" if base.cook_time_minutes else None, base.difficulty, ", ".join(base.tags[:3])]
+    meta = [f"{base.cook_time_minutes} min" if base.cook_time_minutes else None, base.difficulty, ", ".join(base.tags[:3])]
     st.caption(" · ".join(m for m in meta if m))
     if base.description:
         st.write(base.description)
@@ -53,7 +53,7 @@ def show() -> None:
     a = S.analyzed(recipe)
 
     st.subheader("Nutrition per serving")
-    macro_metrics(a.per_serving)
+    macro_metrics(a.per_serving, "cook")
     with st.expander("More nutrients and ingredient breakdown"):
         micro_table(a.per_serving)
         st.dataframe(a.nutrition.per_ingredient, use_container_width=True, hide_index=True)
@@ -71,7 +71,7 @@ def show() -> None:
     for i, ing in enumerate(recipe.ingredients):
         in_pantry = ing.name in have
         label = f"{ing.name} — {ing.display_quantity or ''} ({ing.quantity_g:g} g)".replace(" —  (", " (")
-        st.checkbox(label + ("" if in_pantry or not s.pantry else "  🛒"), key=f"ck_{base.title}_{i}")
+        st.checkbox(label + ("" if in_pantry or not s.pantry else "  "), key=f"ck_{base.title}_{i}")
 
     # step by step
     st.subheader("Step by step")
@@ -80,9 +80,9 @@ def show() -> None:
     st.progress((s.cook_step + 1) / len(steps), text=f"Step {s.cook_step + 1} of {len(steps)}")
     for i, text in enumerate(steps):
         if i < s.cook_step:
-            st.markdown(f"✅ ~~{i + 1}. {text}~~")
+            st.markdown(f"~~{i + 1}. {text}~~")
         elif i == s.cook_step:
-            with st.container(border=True):
+            with st.container(border=True, key="card_step"):
                 st.markdown(f"**Step {i + 1}.** {text}")
                 mins = step_minutes(text)
                 if mins:
@@ -90,16 +90,16 @@ def show() -> None:
         else:
             st.markdown(f"{i + 1}. {text}")
     b1, b2 = st.columns(2)
-    b1.button("← Previous step", key="prev_step", disabled=s.cook_step == 0, use_container_width=True,
+    b1.button("Previous step", icon=":material/arrow_back:", key="prev_step", disabled=s.cook_step == 0, use_container_width=True,
               on_click=lambda: s.update(cook_step=s.cook_step - 1))
     if s.cook_step < len(steps) - 1:
-        b2.button("Next step →", key="next_step", type="primary", use_container_width=True,
+        b2.button("Next step", icon=":material/arrow_forward:", icon_position="right", key="next_step", type="primary", use_container_width=True,
                   on_click=lambda: s.update(cook_step=s.cook_step + 1))
     else:
-        b2.button("🍽️ Done cooking: log it", key="done_log", type="primary", use_container_width=True,
+        b2.button("Done cooking: log it", key="done_log", type="primary", use_container_width=True,
                   on_click=lambda: (S.log_meal(recipe, a.per_serving), st.toast("Logged to today's intake")))
 
     c1, c2 = st.columns(2)
-    c1.button("🔖 Save recipe", key="cook_save", on_click=S.save_recipe, args=(base,), use_container_width=True)
-    c2.download_button("⬇ Download / share as text", recipe_text(recipe, a.nutrition), file_name="recipe.txt",
+    c1.button("Save recipe", icon=":material/bookmark:", key="cook_save", on_click=S.save_recipe, args=(base,), use_container_width=True)
+    c2.download_button("Download as text", recipe_text(recipe, a.nutrition), file_name="recipe.txt", icon=":material/download:",
                        use_container_width=True)

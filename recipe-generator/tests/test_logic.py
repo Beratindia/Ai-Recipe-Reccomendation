@@ -6,7 +6,7 @@ from recipe_gen import persist
 from recipe_gen.analysis import (analyze, apply_adjustment, grocery_list, pantry_match, scale_recipe,
                                  step_minutes, suggest_adjustment)
 from recipe_gen.goals import macro_grams, next_meal_target, violations
-from recipe_gen.llm import GenerationRequest, build_user_prompt, parse_scan, scan_fridge
+from recipe_gen.llm import GenerationRequest, build_user_prompt
 from recipe_gen.nutrition import NutritionCalculator, load_food_db
 from recipe_gen.schema import Recipe
 
@@ -80,12 +80,6 @@ def test_prompt_carries_every_constraint():
     p = build_user_prompt(req, 3)
     for needle in ("Number of recipes: 3", "Gluten-Free", "Air Fryer", "30 minutes", "550 kcal", "40 g", "Lean Muscle"):
         assert needle in p
-
-
-def test_fridge_scan_parsing():
-    reply = 'Here you go ```json\n{"items": ["Ayam", "ayam", " Telur ", "", "x" ]}\n```'
-    assert parse_scan(reply) == ["ayam", "telur", "x"]
-    assert scan_fridge(b"img", "image/png", vision=lambda b, m, p: '{"items": ["tomat"]}') == ["tomat"]
 
 
 def test_save_and_load_roundtrip_keeps_plan_and_survives_damage():
