@@ -61,6 +61,7 @@ class GenerationRequest:
     goal: str = ""
     condition_rules: str = ""
     slots: list[tuple[str, int]] = field(default_factory=list)   # (slot name, kcal per serving)
+    language: str = ""                  # language of titles, descriptions and steps ("English" / "Indonesian")
 
 
 def build_user_prompt(req: GenerationRequest, n: int = 1) -> str:
@@ -94,10 +95,17 @@ def build_user_prompt(req: GenerationRequest, n: int = 1) -> str:
         lines.append(f"Protein target: at least {req.protein_g} g per serving.")
     if req.condition_rules:
         lines.append(f"Special food needs: {req.condition_rules}")
-    lines.append(
-        "Write titles and steps in the same language as the ingredients list "
-        "(Indonesian if it is Indonesian, otherwise English)."
-    )
+    if req.language:
+        lines.append(f"Language: {req.language}")
+        lines.append(
+            f"Write the title, description, tags, display_quantity and steps in {req.language}. "
+            "Keep each ingredient's \"name\" in its common Indonesian form so it can be matched to the nutrition table."
+        )
+    else:
+        lines.append(
+            "Write titles and steps in the same language as the ingredients list "
+            "(Indonesian if it is Indonesian, otherwise English)."
+        )
     return "\n".join(lines)
 
 

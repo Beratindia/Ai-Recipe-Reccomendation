@@ -16,6 +16,8 @@ from recipe_gen.nutrition import NutritionCalculator, load_food_db
 from recipe_gen.schema import Recipe
 from recipe_gen.wellness import CONDITIONS
 
+from .i18n import llm_language, t
+
 PAGES = [("Pantry", ":material/kitchen:"), ("Goals", ":material/target:"), ("Recipes", ":material/restaurant_menu:"),
          ("Cook", ":material/skillet:"), ("Plan", ":material/calendar_month:"), ("Recovery", ":material/health_and_safety:")]
 PREP_OPTIONS = {"Under 15 min": 15, "15-30 min": 30, "30-45 min": 45, "Any": None}
@@ -26,7 +28,7 @@ DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 # widget keys whose values must survive switching pages (Streamlit drops widgets that are not rendered)
 PERSIST = ["cuisine", "servings", "prefs", "equipment", "prep_time", "diet", "p_pct", "c_pct", "f_pct",
            "daily_kcal", "meals_pd", "target_mode", "custom_kcal", "tolerance", "goal", "exclusions",
-           "condition", "plan_day", "sort_by", "cat", "quick_filters", "custom_condition"]
+           "condition", "plan_day", "sort_by", "cat", "quick_filters", "custom_condition", "lang"]
 
 DEFAULTS = {
     "page": "Pantry", "pantry": [], "cuisine": "Indonesian", "servings": 2, "prefs": "",
@@ -36,7 +38,7 @@ DEFAULTS = {
     "cat": "Proteins", "recipes": [], "removed_notes": [], "current": None, "cook_servings": None,
     "cook_step": 0, "saved": [], "plan": {}, "recipe_context": "", "gen_error": "", "log": [],
     "quick_filters": [], "custom_condition": "", "plan_notes": [], "recovery_meals": [],
-    "recovery_notes": [], "recovery_for": "",
+    "recovery_notes": [], "recovery_for": "", "lang": "English",
 }
 
 SUGGESTIONS = {
@@ -179,7 +181,7 @@ def build_request(*, servings: int | None = None, slots: list[tuple[str, int]] |
         target_kcal=None if slots else g.target_kcal, tolerance_kcal=g.tolerance,
         protein_g=None if slots or not g.target_kcal else round(macros["protein_g"] * 0.9),
         diet_name=g.diet, diet_notes=diet_notes, goal=g.goal, slots=slots or [],
-        condition_rules=cond.prompt_rules if cond else custom_rules,
+        condition_rules=cond.prompt_rules if cond else custom_rules, language=llm_language(),
     )
 
 
@@ -197,7 +199,8 @@ def generate(*, n: int = 3, servings: int | None = None, slots: list[tuple[str, 
         if cond and cond.blocked_keywords:
             bad += [f"{cond.name}: {x}" for x in blocked_by_keywords(names, cond.blocked_keywords)]
         if bad:
-            notes.append(f"Removed “{r.title}”: {', '.join(bad[:3])}")
+            why = ", ".join(t(b.split(": ", 1)[0]) + (": " + b.split(": ", 1)[1] if ": " in b else "") for b in bad[:3])
+            notes.append(t("Removed “{title}”: {why}", title=r.title, why=why))
         else:
             kept.append(r)
     return kept, notes
@@ -211,13 +214,13 @@ def generate_for_recipes(condition: str | None = None) -> bool:
     """Generate a fresh batch for the Recipes page. Returns True if the page should switch."""
     s = st.session_state
     if not s.pantry:
-        st.toast("Add at least one ingredient to your pantry first.")
+        st.toast(t("Add at least one ingredient to your pantry first."))
         return False
     try:
-        with st.spinner("Your AI chef is cooking up ideas..."):
+        with st.spinner(t("Your AI chef is cooking up ideas...")):
             kept, notes = generate(condition=condition)
     except Exception as e:  # network, quota, bad key, invalid JSON twice...
-        st.error(f"Could not generate recipes: {e}")
+        st.error(t("Could not generate recipes: {e}", e=e))
         return False
     s.recipes, s.removed_notes, s.recipe_context, s.page = kept, notes, condition or "", "Recipes"
     return True

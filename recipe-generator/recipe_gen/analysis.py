@@ -241,19 +241,26 @@ def step_minutes(step: str) -> int | None:
     return int(round(best)) if best else None
 
 
-def recipe_text(recipe: Recipe, nutrition: NutritionResult | None = None) -> str:
+_TEXT_LABELS = {
+    "en": ("servings", "min", "Ingredients", "Steps", "Per serving (estimate)", "protein", "carbs", "fat"),
+    "id": ("porsi", "mnt", "Bahan", "Langkah", "Per porsi (perkiraan)", "protein", "karbo", "lemak"),
+}
+
+
+def recipe_text(recipe: Recipe, nutrition: NutritionResult | None = None, lang: str = "en") -> str:
+    sv, mn, ing, stp, per, pr, cb, ft = _TEXT_LABELS.get(lang, _TEXT_LABELS["en"])
     lines = [recipe.title, "=" * len(recipe.title)]
-    meta = f"{recipe.servings} servings"
+    meta = f"{recipe.servings} {sv}"
     if recipe.cook_time_minutes:
-        meta += f" · {recipe.cook_time_minutes} min"
+        meta += f" · {recipe.cook_time_minutes} {mn}"
     lines += [meta, ""]
     if recipe.description:
         lines += [recipe.description, ""]
-    lines.append("Ingredients")
+    lines.append(ing)
     lines += [f"- {i.name}: {i.display_quantity or ''} ({i.quantity_g:g} g)".replace(":  (", ": (") for i in recipe.ingredients]
-    lines += ["", "Steps"] + [f"{n}. {s}" for n, s in enumerate(recipe.steps, 1)]
+    lines += ["", stp] + [f"{n}. {s}" for n, s in enumerate(recipe.steps, 1)]
     if nutrition is not None:
         ps = nutrition.per_serving
-        lines += ["", f"Per serving (estimate): {ps['kcal']:g} kcal · {ps['protein_g']:g} g protein · "
-                      f"{ps['carbs_g']:g} g carbs · {ps['fat_g']:g} g fat"]
+        lines += ["", f"{per}: {ps['kcal']:g} kcal · {ps['protein_g']:g} g {pr} · "
+                      f"{ps['carbs_g']:g} g {cb} · {ps['fat_g']:g} g {ft}"]
     return "\n".join(lines)

@@ -17,7 +17,12 @@ with quantities, instructions, and estimated nutrition.
 All numbers shown come from the food-composition table, never from the AI. Your data lives in the browser
 session; use "Save or load my data" at the bottom to keep it.
 
-Not included yet: voice input and voice-guided cooking, streaks, recipe photos and ratings, visual design.
+**Languages:** English and Bahasa Indonesia, chosen with the switch at the top of the app. The interface, the AI recipe
+text (titles, descriptions, steps), the wellness guidance and downloads all follow it. Ingredient names stay in their common
+Indonesian form so they match the food table. UI text lives in `ui/i18n.py`; to add a phrase, wrap it in `t("...")` and add
+its Indonesian text to the `ID` dictionary (a missing entry just shows the English text).
+
+Not included yet: voice input and voice-guided cooking, streaks, recipe photos and ratings.
 `design_draft/` holds an earlier styled attempt that is not used.
 
 ## How it works
