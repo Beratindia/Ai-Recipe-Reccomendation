@@ -13,9 +13,9 @@ CSS = """
 :root{
   --emerald:#059669; --emerald-deep:#047857; --forest:#064E3B; --amber:#EA580C; --amber-soft:#FFF7ED;
   --canvas:#F9FAFB; --card:#FFFFFF; --tint:#F1F5F9; --mint:#ECFDF5; --mint-line:#A7F3D0;
-  --ink:#0F172A; --body:#334155; --muted:#64748B; --line:#E2E8F0;
+  --ink:#0B1220; --body:#0B1220; --muted:#1E293B; --line:#E2E8F0;
   --protein-bg:#FFEDD5; --protein-fg:#C2410C; --carb-bg:#FEF3C7; --carb-fg:#B45309;
-  --fat-bg:#D1FAE5; --fat-fg:#047857; --kcal-bg:#F1F5F9; --kcal-fg:#334155;
+  --fat-bg:#D1FAE5; --fat-fg:#047857; --kcal-bg:#F1F5F9; --kcal-fg:#0B1220;
 }
 
 html, body, .stApp, .stApp :where(p, span, div, label, input, textarea, button, li, h1, h2, h3, h4, td, th, a){
@@ -136,7 +136,7 @@ button[data-variant="pills"][data-selected="true"] *{color:#fff !important;}
 [data-testid="stDataFrame"]{border-radius:12px;overflow:hidden;border:1px solid var(--line);}
 
 /* ---------- week strip ---------- */
-.wk{display:flex;flex-direction:column;align-items:center;gap:2px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 2px;font-size:12px;line-height:1.3;color:#64748B;}
+.wk{display:flex;flex-direction:column;align-items:center;gap:2px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 2px;font-size:12px;line-height:1.3;color:#1E293B;}
 .wk b{font-size:13px;color:#0F172A;}
 .wk span{font-weight:600;color:#0F172A;}
 .wk i{font-style:normal;font-size:11px;}
@@ -154,6 +154,11 @@ button[data-variant="pills"][data-selected="true"] *{color:#fff !important;}
   .st-key-weekstrip .wk b{font-size:11px;}
   .st-key-weekstrip .wk i{font-size:9px;}
 }
+
+/* ---------- secondary text: near-black instead of gray ---------- */
+[data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] *,
+[data-testid="stWidgetLabel"] *, [data-testid="stMetricLabel"] *{color:#0B1220 !important;opacity:1 !important;}
+input::placeholder, textarea::placeholder{color:#334155 !important;opacity:1 !important;}
 """
 
 
